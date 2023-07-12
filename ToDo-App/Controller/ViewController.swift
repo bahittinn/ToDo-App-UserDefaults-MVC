@@ -8,12 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    struct Task: Codable {
-        var taskName: String
-        var status: Int
-        var priorty: Int
-    }
-    var allTasks = [Task(taskName: "default", status: 1, priorty: 3)]
+     
+    var allTasks = [TodoModel(taskName: "default", status: 1, priorty: 3)]
     @IBOutlet weak var taskNameTextField: UITextField!
     @IBOutlet weak var prioritySegControl: UISegmentedControl!
  
@@ -21,12 +17,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         if let myData = UserDefaults.standard.value(forKey: "SavedTasks") as? Data {
-            allTasks = try! PropertyListDecoder().decode(Array<Task>.self, from: myData)
+            allTasks = try! PropertyListDecoder().decode(Array<TodoModel>.self, from: myData)
             print(allTasks)
         }
     }
     @IBAction func saveNewTaskButton(_ sender: UIButton) {
-        let newTask = Task(taskName: taskNameTextField.text!, status: 1, priorty: prioritySegControl.selectedSegmentIndex)
+        let newTask = TodoModel(taskName: taskNameTextField.text!, status: 1, priorty: prioritySegControl.selectedSegmentIndex)
         allTasks.append(newTask)
         UserDefaults.standard.set(try? PropertyListEncoder().encode(allTasks),forKey: "SavedTasks")
     }

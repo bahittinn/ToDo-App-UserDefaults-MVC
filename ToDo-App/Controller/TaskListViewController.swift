@@ -8,12 +8,8 @@
 import UIKit
 
 class TaskListViewController: UITableViewController {
-    struct Task: Codable {
-        var taskName: String
-        var status: Int
-        var priorty: Int
-    }
-    var allTasks = [Task(taskName: "default", status: 1, priorty: 3)]
+     
+    var allTasks = [TodoModel(taskName: "default", status: 1, priorty: 3)]
     
     @IBOutlet var TaskListTableView: UITableView!
     
@@ -23,7 +19,7 @@ class TaskListViewController: UITableViewController {
         TaskListTableView.dataSource = self
         
         if let myData = UserDefaults.standard.value(forKey: "SavedTasks") as? Data {
-            allTasks = try! PropertyListDecoder().decode(Array<Task>.self, from: myData)
+            allTasks = try! PropertyListDecoder().decode(Array<TodoModel>.self, from: myData)
             print(allTasks)
         }
     }
@@ -40,7 +36,7 @@ class TaskListViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         if let myData = UserDefaults.standard.value(forKey: "SavedTasks") as? Data {
-            allTasks = try! PropertyListDecoder().decode(Array<Task>.self, from: myData)
+            allTasks = try! PropertyListDecoder().decode(Array<TodoModel>.self, from: myData)
             print(allTasks)
         }
         self.TaskListTableView.reloadData()
